@@ -43,6 +43,11 @@ public class PlayerAnim : MonoBehaviour
             anim.SetInteger("transition", 0); // Parado (Idle)
         }
 
+        if (player.isCutting)
+        {
+            anim.SetInteger("transition",3);
+        }
+
         HandleSpriteFlip();
     }
 

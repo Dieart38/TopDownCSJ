@@ -125,6 +125,7 @@ public class Player : MonoBehaviour
     private float currentSpeed;
     private bool _isRunning;
     private bool _isRolling;
+    private bool _isCutting;
 
     // Variável de controle para garantir que o jogador soltou o botão
     private bool _canRollAgain = true;
@@ -151,7 +152,11 @@ public class Player : MonoBehaviour
         get { return _isRolling; }
         set { _isRolling = value; }
     }
-
+    public bool isCutting
+    {
+        get { return _isCutting; }
+        set { _isCutting = value; }
+    }
     void Start()
     {
         currentSpeed = speed;
@@ -164,6 +169,7 @@ public class Player : MonoBehaviour
         OnInput();
         OnRun();
         OnRoll();
+        OnCutting();
     }
 
     void FixedUpdate()
@@ -172,6 +178,20 @@ public class Player : MonoBehaviour
     }
 
     #region Movement
+
+    void OnCutting()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            isCutting = true;
+            speed = 0f;
+        }
+        if (Input.GetMouseButtonUp(0))
+        {
+            isCutting = false;
+            speed = currentSpeed;
+        }
+    }
 
     void OnInput()
     {
@@ -226,7 +246,7 @@ public class Player : MonoBehaviour
         _isRolling = true;
         _canRollAgain = false; // Bloqueia novos comandos
         _isRunning = false;    // Cancela a corrida se estivesse correndo
-        
+
         speed = rollSpeed;     // Aplica a velocidade do rolamento
         Debug.Log("Rolling Started");
 
